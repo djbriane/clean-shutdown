@@ -95,6 +95,7 @@ while true; do
         if shutdown_trigger; then
             msg="BCM $trigger_pin held low, system shutdown in $shutdown_delay minutes"
             echo $msg && wall $msg
+            /usr/local/bin/pngview -b 0 -l 299999 -x 650 -y 10 /usr/local/share/icons/battery0.png
             daemon="off" && shutdown -h +$shutdown_delay
             break
         fi

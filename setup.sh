@@ -36,7 +36,7 @@ armv6="yes" # whether armv6 processors are supported
 armv7="yes" # whether armv7 processors are supported
 armv8="yes" # whether armv8 processors are supported
 raspbianonly="no" # whether the script is allowed to run on other OSes
-pkgdeplist=() # list of dependencies
+pkgdeplist=( "libpng12-dev" ) # list of dependencies
 defaultconf="/etc/cleanshutd.conf"
 
 FORCE=""
@@ -296,6 +296,13 @@ else
         fi
     fi
 fi
+
+echo -e "\nInstalling indicator..."
+
+sudo mkdir -r /usr/local/share/icons
+sudo cp ./indicator/icons/* /usr/local/share/icons
+sudo cp ./indicator/Pngview/pngview /usr/local/bin
+sudo chmod 755 /usr/local/bin/pngview
 
 success "\nAll done!\n"
 
