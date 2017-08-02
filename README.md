@@ -6,13 +6,7 @@
 
 The `setup.sh` script provided in this repository can be used to set your preference of GPIO pin to monitor in order to initiate the shutdown. To install support for a specific product however, such as OnOff SHIM or Zero LiPo, we recommend you use the one-line installers listed further down the page.
 
-We highly recommend you use the generic one-line installer rather than run the `setup.sh` script directly, like so:
-
-```
-curl https://get.pimoroni.com/cleanshutdown | bash
-```
-
-If you need to however, for example because the above command states that your operating system is not supported, clone this repository locally and run `setup.sh`. When prompted, enter the pin you would you like to use as trigger for the shutdown.
+To install, clone this repository locally and run `setup.sh`. When prompted, enter the pin you would you like to use as trigger for the shutdown.
 
 Note that the setup script expects an integer value between 4 and 27 (you can use others outside this range by manually editing the config file as explained below, but there are caveats so if it does not quite work, you're on your own!)
 
@@ -86,6 +80,10 @@ Most of the time you probably want your Pi to shutdow as soon as the trigger occ
 ### `polling_rate`
 
 This parameter determines how often the trigger is checked for. Normally, a small but reasonable value, say a second or 2 is adequate to detect a button press without polling constantly, but if you take the Zero Lipo example again it really does not matter if the monitoring is more relaxed, say if polling is performed every 30 seconds or so. There may be other use-cases where smaller or larger values are optimal, so there's a parameter for the occasion if you find yourself in one. Units for `polling_rate` are expressed in seconds.
+
+### `show_indicator`
+
+If your Pi has a screen attached and you'd prefer a visual indicator that the trigger has initiated a shutdown, enabling this flag will display a battery icon in the upper right corner of the screen once shutdown has commenced. Pair this with a non-zero value for `shutdown_delay` so you have time to finish what you were doing on-screen before the system shuts down. This is particularly useful for Pi's running RetroPie so you can quickly save your game!
 
 ## Parasitic Shutdowns
 
