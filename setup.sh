@@ -299,7 +299,7 @@ fi
 
 echo -e "\nInstalling indicator..."
 
-sudo mkdir -r /usr/local/share/icons
+sudo mkdir /usr/local/share/icons
 sudo cp ./indicator/icons/* /usr/local/share/icons
 sudo cp ./indicator/Pngview/pngview /usr/local/bin
 sudo chmod 755 /usr/local/bin/pngview
