@@ -34,12 +34,14 @@ if [ -f /etc/cleanshutd.conf ]; then
     hold_value=$(grep "hold_time" /etc/cleanshutd.conf | cut -c 11-)
     delay_value=$(grep "shutdown_delay" /etc/cleanshutd.conf | cut -c 16-)
     rate_value=$(grep "polling_rate" /etc/cleanshutd.conf | cut -c 14-)
+    indicator_value=$(grep "show_indicator" /etc/cleanshutd.conf | cut -c 16-)
     declare -i trigger_pin=$pin_value
     declare -i led_pin=$led_value
     declare -i poweroff_pin=$poweroff_value
     declare -i hold_time=$hold_value
     declare -i shutdown_delay=$delay_value
     declare -i polling_rate=$rate_value
+    declare -i show_indicator=$indicator_value
 else
     declare -i trigger_pin=4
     declare -i led_pin="off"
@@ -47,6 +49,7 @@ else
     declare -i hold_time=1
     declare -i shutdown_delay=0
     declare -i polling_rate=1
+    declare -i show_indicator=0
 fi
 
 if [ $shutdown_delay != 0 ]; then
@@ -93,9 +96,12 @@ shutdown_trigger() {
 while true; do
     while [ $daemon = "on" ]; do
         if shutdown_trigger; then
-            msg="BCM $trigger_pin held low, system shutdown in $shutdown_delay minutes"
-            echo $msg && wall $msg
-            /usr/local/bin/pngview -b 0 -l 299999 -x 650 -y 10 /usr/local/share/icons/battery0.png
+            if [ $show_indicator = 1 ]; then
+                /usr/local/bin/pngview -b 0 -l 299999 -x 650 -y 10 /usr/local/share/icons/battery0.png
+            else
+                msg="BCM $trigger_pin held low, system shutdown in $shutdown_delay minutes"
+                echo $msg && wall $msg
+            fi
             daemon="off" && shutdown -h +$shutdown_delay
             break
         fi
